@@ -22,5 +22,5 @@
 <booleanAttribute key="tracing" value="true"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="net.wickedshell.ds.transactions@default:default,net.wickedshell.ds.tx.sample.config@default:false,net.wickedshell.ds.tx.sample.domain@default:default,net.wickedshell.ds.tx.sample.persitenceunit@4:true,net.wickedshell.ds.tx.sample.repository@default:default,net.wickedshell.ds.tx.sample.service@default:default"/>
+<stringAttribute key="workspace_bundles" value="net.wickedshell.ds.tx.sample.config@default:false,net.wickedshell.ds.tx.sample.domain@default:default,net.wickedshell.ds.tx.sample.persitenceunit@4:true,net.wickedshell.ds.tx.sample.repository@default:default,net.wickedshell.ds.tx.sample.service@default:default,net.wickedshell.ds.tx@default:default"/>
 </launchConfiguration>
