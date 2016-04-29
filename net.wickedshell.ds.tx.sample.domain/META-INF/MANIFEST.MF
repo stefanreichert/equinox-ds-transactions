@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TX Sample Domain
+Bundle-SymbolicName: net.wickedshell.ds.tx.sample.domain
+Bundle-Version: 0.0.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: javax.persistence
+Export-Package: net.wickedshell.ds.tx.sample.domain
+Require-Bundle: net.wickedshell.ds.tx.sample.persitenceunit
+Bundle-Vendor: Stefan Reichert

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sample DS TX Config
+Bundle-SymbolicName: net.wickedshell.ds.tx.sample.config
+Bundle-Version: 0.0.1.qualifier
+Fragment-Host: net.wickedshell.ds.tx;bundle-version="0.0.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Stefan Reichert

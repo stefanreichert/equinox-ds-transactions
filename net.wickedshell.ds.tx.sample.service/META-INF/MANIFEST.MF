@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TX Sample Service
+Bundle-SymbolicName: net.wickedshell.ds.tx.sample.service
+Bundle-Version: 0.0.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: javax.persistence,
+ org.osgi.framework
+Require-Bundle: net.wickedshell.ds.tx,
+ net.wickedshell.ds.tx.sample.repository,
+ net.wickedshell.ds.tx.sample.domain
+Service-Component: OSGI-INF/*
+Export-Package: net.wickedshell.ds.tx.sample.service
+Bundle-Vendor: Stefan Reichert

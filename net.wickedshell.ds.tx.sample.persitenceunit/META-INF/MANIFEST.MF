@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TX Sample Persitence Unit
+Bundle-SymbolicName: net.wickedshell.ds.tx.sample.persitenceunit
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Stefan Reichert
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Eclipse-BuddyPolicy: dependent
+Meta-Persistence: META-INF/persistence.xml 
+Bundle-ClassPath: lib/h2-1.4.191.jar,
+ .
+Require-Bundle: org.eclipse.persistence.core;visibility:=reexport
+Import-Package: javax.persistence
