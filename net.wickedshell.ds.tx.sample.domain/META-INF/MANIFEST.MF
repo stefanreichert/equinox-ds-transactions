@@ -7,4 +7,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.persistence
 Export-Package: net.wickedshell.ds.tx.sample.domain
 Require-Bundle: net.wickedshell.ds.tx.sample.persitenceunit
+Eclipse-RegisterBuddy: net.wickedshell.ds.tx.sample.persitenceunit
 Bundle-Vendor: Stefan Reichert

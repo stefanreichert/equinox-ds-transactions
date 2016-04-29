@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    version="1.0">
-    <persistence-unit name="greetings">
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        
-        <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE"/>
-            <property name="javax.persistence.jdbc.user" value="sa"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<persistence-unit name="greetings">
+		<class>net.wickedshell.ds.tx.sample.domain.Greeting</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
-            <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
-            <property name="eclipselink.logging.level" value="WARNING"/>
-            <property name="eclipselink.logging.timestamp" value="false"/>
-            <property name="eclipselink.logging.thread" value="false"/>
-            <property name="eclipselink.logging.exceptions" value="true"/>
-            <property name="eclipselink.orm.throw.exceptions" value="true"/>
-            <property name="eclipselink.jdbc.read-connections.min" value="1"/>
-            <property name="eclipselink.jdbc.write-connections.min" value="1"/>                        
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-            <property name="eclipselink.weaving" value="true"/>
-        </properties>
-    </persistence-unit>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+
+			<property name="eclipselink.target-database"
+				value="org.eclipse.persistence.platform.database.H2Platform" />
+			<property name="eclipselink.logging.level" value="WARNING" />
+			<property name="eclipselink.logging.timestamp" value="false" />
+			<property name="eclipselink.logging.thread" value="false" />
+			<property name="eclipselink.logging.exceptions" value="true" />
+			<property name="eclipselink.orm.throw.exceptions" value="true" />
+			<property name="eclipselink.jdbc.read-connections.min"
+				value="1" />
+			<property name="eclipselink.jdbc.write-connections.min"
+				value="1" />
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+			<property name="eclipselink.weaving" value="true" />
+		</properties>
+	</persistence-unit>
 </persistence>
