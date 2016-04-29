@@ -34,6 +34,10 @@ public class TransactionManagerImpl implements TransactionManager, TransactionCo
 			properties.load(propertyStream);
 			String persistenceUnitName = properties.getProperty("persistenceUnitName");
 			entityManagerFactory = persistenceProvider.createEntityManagerFactory(persistenceUnitName, new HashMap<>());
+			if (entityManagerFactory == null) {
+				throw new RuntimeException(
+						"failed to create entity manager factory for persistence unit " + persistenceUnitName);
+			}
 		}
 	}
 
@@ -66,7 +70,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionCo
 
 	@Override
 	public void rollback(RuntimeException exception) {
-		System.out.println("rollback transaction: " + exception.getMessage());
+		System.err.println("rollback transaction: " + exception.getMessage());
 		EntityManager entityManager = getEntityManager();
 		if (entityManager.isOpen() && entityManager.getTransaction().isActive()) {
 			entityManager.getTransaction().rollback();
