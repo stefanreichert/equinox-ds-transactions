@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DX TS Sample Test
+Bundle-SymbolicName: net.wickedshell.ds.tx.sample.service.test
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Stefan Reichert
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.junit,
+ net.wickedshell.ds.tx.sample.service,
+ net.wickedshell.ds.tx.sample.domain
+Import-Package: org.osgi.framework
+Bundle-ActivationPolicy: lazy

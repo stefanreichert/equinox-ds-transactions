@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" immediate="true" name="Greeting Service">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="Greeting Service">
    <implementation class="net.wickedshell.ds.tx.sample.service.internal.GreetingServiceImpl"/>
    <reference bind="setGreetingRepository" cardinality="1..1" interface="net.wickedshell.ds.tx.sample.repository.GreetingRepository" name="GreetingRepository" policy="static"/>
    <service>

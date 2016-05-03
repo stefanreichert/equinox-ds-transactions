@@ -12,3 +12,4 @@ Require-Bundle: net.wickedshell.ds.tx,
 Service-Component: OSGI-INF/*
 Export-Package: net.wickedshell.ds.tx.sample.service
 Bundle-Vendor: Stefan Reichert
+Bundle-ActivationPolicy: lazy

@@ -6,7 +6,7 @@ import net.wickedshell.ds.tx.sample.domain.Greeting;
 
 public interface GreetingService {
 
-	Greeting createAndPersistNewGreeting();
+	Greeting persistNewGreeting(String greeting);
 	
 	Collection<Greeting> findAll();
 
