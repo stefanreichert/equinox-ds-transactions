@@ -1,6 +1,7 @@
 package net.wickedshell.ds.tx.sample.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -35,15 +36,17 @@ public class GreetingServiceTest {
 	@Test
 	public void shouldFindTwoGreetings() {
 		// given
-		service.persistNewGreeting("Hello DemoCamp crowd!");
-		service.persistNewGreeting("This is Equinox DS together with Equinox Aspects!");
+		Greeting firstGreeting = service.persistNewGreeting("Hello DemoCamp crowd!");
+		Greeting secondGreeting = service.persistNewGreeting("This is Equinox DS together with Equinox Aspects!");
 
 		// when
 		Collection<Greeting> greetings = service.findAll();
 
 		// then
 		assertThat(greetings.size(), is(equalTo(2)));
-		
+		assertThat(greetings, hasItem(firstGreeting));
+		assertThat(greetings, hasItem(secondGreeting));
+
 		for (Greeting greeting : greetings) {
 			System.out.println(greeting.getGreeting());
 		}
