@@ -13,5 +13,4 @@ Import-Package: javax.persistence,
  org.osgi.framework,
  org.osgi.service.component
 Service-Component: OSGI-INF/transactionmanager.xml
-Bundle-Activator: net.wickedshell.ds.tx.internal.Activator
 Bundle-ActivationPolicy: lazy

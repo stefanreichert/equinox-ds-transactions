@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" name="TransactionManager">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="initializeEntityManagerFactory" deactivate="closeEntityManagerFactory" name="TransactionManager">
    <implementation class="net.wickedshell.ds.tx.internal.TransactionManagerImpl"/>
    <service>
-      <provide interface="net.wickedshell.ds.tx.TransactionManager"/>
+      <provide interface="net.wickedshell.ds.tx.internal.TransactionManager"/>
       <provide interface="net.wickedshell.ds.tx.TransactionContext"/>
    </service>
    <reference bind="setPersistenceProvider" cardinality="1..1" interface="javax.persistence.spi.PersistenceProvider" name="PersistenceProvider" policy="static"/>
