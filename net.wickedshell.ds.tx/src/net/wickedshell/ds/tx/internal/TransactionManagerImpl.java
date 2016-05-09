@@ -23,6 +23,8 @@ import javax.persistence.FlushModeType;
 import javax.persistence.spi.PersistenceProvider;
 
 import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.wickedshell.ds.tx.TransactionContext;
 
@@ -39,6 +41,9 @@ import net.wickedshell.ds.tx.TransactionContext;
  */
 public class TransactionManagerImpl implements TransactionManager, TransactionContext {
 
+	/** the logger instance to use. **/
+	private static final Logger LOG = LoggerFactory.getLogger(TransactionManager.class);
+
 	/** the factory that is created on activation of the manager. */
 	private EntityManagerFactory entityManagerFactory;
 
@@ -47,8 +52,8 @@ public class TransactionManagerImpl implements TransactionManager, TransactionCo
 	 */
 	private PersistenceProvider persistenceProvider;
 
-	/** the container for the context data (entity manager) */
-	private ThreadLocal<EntityManager> localEntityManager = new ThreadLocal<>();
+	/** the container for the context data */
+	private ThreadLocal<TransactionContextData> localContextData = new ThreadLocal<>();
 
 	/**
 	 * Sets the {@link PersistenceProvider} reference.<br>
@@ -123,53 +128,98 @@ public class TransactionManagerImpl implements TransactionManager, TransactionCo
 		}
 	}
 
-	@Override
-	public EntityManager getEntityManager() {
-		EntityManager entityManager = localEntityManager.get();
-		if (entityManager == null) {
+	private TransactionContextData getContextData() {
+		TransactionContextData contextData = localContextData.get();
+		if (contextData == null) {
 			throw new IllegalStateException(
 					"no entity manager available; did you forget to begin a transaction with @Transactional?");
 		}
-		return entityManager;
+		return contextData;
+	}
+
+	@Override
+	public EntityManager getEntityManager() {
+		return getContextData().getEntityManager();
 	}
 
 	@Override
 	public void begin() {
-		if (localEntityManager.get() != null) {
-			throw new IllegalStateException("there already is a context; you need to close the existing one before!");
+		if (localContextData.get() == null) {
+			doBegin();
+		} else {
+			TransactionContextData contextData = getContextData();
+			contextData.incrementNestingDepth();
+			LOG.debug("%s # reuse transaction", contextData.getTransactionId());
 		}
+	}
+
+	private void doBegin() {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		try {
 			entityManager.setFlushMode(FlushModeType.AUTO);
 			entityManager.getTransaction().begin();
-			localEntityManager.set(entityManager);
+			TransactionContextData contextData = new TransactionContextData(entityManager);
+			localContextData.set(contextData);
+			LOG.debug("%s # begin transaction", contextData.getTransactionId());
 		} catch (RuntimeException exception) {
 			entityManager.close();
-			localEntityManager.remove();
+			localContextData.remove();
 			throw exception;
 		}
 	}
 
 	@Override
 	public void commit() {
-		EntityManager entityManager = getEntityManager();
+		if (!getContextData().isInNestedState()) {
+			doCommit(getContextData());
+		} else {
+			LOG.trace("%s # skipped committing transaction - nested state", getContextData().getTransactionId());
+		}
+	}
+
+	private void doCommit(TransactionContextData contextData) {
+		EntityManager entityManager = contextData.getEntityManager();
 		if (entityManager.isOpen() && entityManager.getTransaction().isActive()) {
 			getEntityManager().getTransaction().commit();
+			LOG.debug("%s # committed transaction", contextData.getTransactionId());
+		} else {
+			LOG.trace("%s # skipped committing transaction - not active anymore", contextData.getTransactionId());
 		}
 	}
 
 	@Override
 	public void rollback(RuntimeException exception) {
-		EntityManager entityManager = getEntityManager();
+		if (!getContextData().isInNestedState()) {
+			doRollback(getContextData(), exception);
+		} else {
+			LOG.trace("%s # skipped rolling back transaction - nested state", getContextData().getTransactionId());
+		}
+	}
+
+	private void doRollback(TransactionContextData contextData, RuntimeException exception) {
+		EntityManager entityManager = contextData.getEntityManager();
 		if (entityManager.isOpen() && entityManager.getTransaction().isActive()) {
 			entityManager.getTransaction().rollback();
+			LOG.debug("%s # rolled back transaction : ", contextData.getTransactionId(), exception.getMessage());
+		} else {
+			LOG.trace("%s # skipped rolling back transaction - not active anymore", contextData.getTransactionId());
 		}
 	}
 
 	@Override
 	public void close() {
-		getEntityManager().close();
-		localEntityManager.set(null);
+		if (!getContextData().isInNestedState()) {
+			doClose(getContextData());
+		} else {
+			getContextData().decrementNestingDepth();
+			LOG.trace("%s # skipped closing transaction - nested state", getContextData().getTransactionId());
+		}
+	}
+
+	private void doClose(TransactionContextData contextData) {
+		contextData.getEntityManager().close();
+		localContextData.set(null);
+		LOG.debug("%s # closed transaction", contextData.getTransactionId());
 	}
 
 }
